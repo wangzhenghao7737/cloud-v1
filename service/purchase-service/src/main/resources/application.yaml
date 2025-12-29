@@ -1,0 +1,14 @@
+server:
+  port: 8481
+spring:
+  application:
+    name: purchase-service
+  profiles:
+    active: dev
+    include: feign
+  web:
+    resources:
+      add-mappings: false
+logging:
+  file:
+    path: ./logs/purchase-service

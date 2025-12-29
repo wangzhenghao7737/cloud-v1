@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: 97002d10-fe93-4b17-bd9b-07bf64d8d15d
+        group: cloud-demo-v1
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: 97002d10-fe93-4b17-bd9b-07bf64d8d15d
+        group: cloud-demo-v1
+        file-extension: yaml
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: '*'
+            allowed-headers: '*'
+            allowed-methods: '*'
+  config:
+    import:
+      - nacos:${spring.application.name}.yaml
+logging:
+  level:
+    # 网关路由匹配和转发日志
+    org.springframework.cloud.gateway: DEBUG
+    # 路由谓词（Predicate）匹配详情
+    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: TRACE
+    # 过滤器执行日志
+    org.springframework.cloud.gateway.filter: TRACE
+    # 负载均衡客户端（如 lb://）日志
+    org.springframework.cloud.loadbalancer: DEBUG
+server:
+  port: 80
+
+

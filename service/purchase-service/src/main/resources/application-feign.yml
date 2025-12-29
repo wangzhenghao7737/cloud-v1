@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            logger-level: full
+            connect-timeout: 3000
+            read-timeout: 3000
+          product-service:
+            connect-timeout: 3000
+            read-timeout: 3000
+            logger-level:  full
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+feign:
+  sentinel:
+    enabled: true
+logging:
+  level:
+    com.xiaosa.onlinecloud.feign: debug

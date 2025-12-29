@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaosa.clouddemo.mapper.ProductMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaosa.clouddemo.domain.Product">
+            <id property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="subTitle" column="sub_title" />
+            <result property="productCode" column="product_code" />
+            <result property="categoryId" column="category_id" />
+            <result property="brandId" column="brand_id" />
+            <result property="mainImageUrl" column="main_image_url" />
+            <result property="description" column="description" />
+            <result property="keywords" column="keywords" />
+            <result property="price" column="price" />
+            <result property="costPrice" column="cost_price" />
+            <result property="marketPrice" column="market_price" />
+            <result property="stock" column="stock" />
+            <result property="weight" column="weight" />
+            <result property="volume" column="volume" />
+            <result property="status" column="status" />
+            <result property="isNew" column="is_new" />
+            <result property="isHot" column="is_hot" />
+            <result property="isBest" column="is_best" />
+            <result property="sortOrder" column="sort_order" />
+            <result property="createdBy" column="created_by" />
+            <result property="updatedBy" column="updated_by" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+            <result property="isDeleted" column="is_deleted" />
+            <result property="deletedAt" column="deleted_at" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,sub_title,product_code,category_id,brand_id,
+        main_image_url,description,keywords,price,cost_price,
+        market_price,stock,weight,volume,status,
+        is_new,is_hot,is_best,sort_order,created_by,
+        updated_by,created_at,updated_at,is_deleted,deleted_at
+    </sql>
+</mapper>

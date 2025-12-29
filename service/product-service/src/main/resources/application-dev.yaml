@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: 97002d10-fe93-4b17-bd9b-07bf64d8d15d
+        group: cloud-demo-v1
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: 97002d10-fe93-4b17-bd9b-07bf64d8d15d
+        group: cloud-demo-v1
+        file-extension: yaml
+  config:
+    import:
+      - nacos:product-service.yaml
+      - nacos:feign.yaml
+      - nacos:redis.yaml
+knife4j:
+  enable: true
+

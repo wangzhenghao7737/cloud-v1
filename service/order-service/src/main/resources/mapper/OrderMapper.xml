@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xisaosa.clouddemo.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.xisaosa.clouddemo.domain.Order">
+            <id property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="productId" column="product_id" />
+            <result property="totalPrice" column="total_price" />
+            <result property="quantity" column="quantity" />
+            <result property="status" column="status" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="logicDelete" column="logic_delete" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,product_id,total_price,quantity,status,
+        create_time,update_time,logic_delete
+    </sql>
+</mapper>

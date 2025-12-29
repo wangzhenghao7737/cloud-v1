@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaosa.clouddemo.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaosa.clouddemo.entity.domain.User">
+            <id property="userId" column="user_id" />
+            <result property="phone" column="phone" />
+            <result property="password" column="password" />
+            <result property="account" column="account" />
+            <result property="userName" column="user_name" />
+            <result property="sex" column="sex" />
+            <result property="userStatus" column="user_status" />
+            <result property="age" column="age" />
+            <result property="money" column="money" />
+            <result property="socre" column="socre" />
+            <result property="email" column="email" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="logicDelete" column="logic_delete" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,phone,password,account,user_name,sex,
+        user_status,age,money,socre,email,
+        create_time,update_time,logic_delete
+    </sql>
+    <sql id="Identity_Column_List">
+        user_id,phone,password,account,user_name,
+        user_status,logic_delete
+    </sql>
+    <select id="selectByUserId" resultType="com.xiaosa.clouddemo.entity.domain.User">
+        SELECT <include refid="Identity_Column_List"/>
+        FROM user
+        where user_id = #{userId}
+            AND logic_delete = 0
+    </select>
+    <select id="selectByUserPhone" resultType="com.xiaosa.clouddemo.entity.domain.User">
+        SELECT <include refid="Identity_Column_List"/>
+        FROM user
+        WHERE phone = #{phone}
+            AND logic_delete = 0
+    </select>
+</mapper>

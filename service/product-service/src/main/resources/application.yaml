@@ -1,0 +1,9 @@
+server:
+  port: 8381
+spring:
+  application:
+    name: product-service
+  profiles:
+    active: dev
+knife4j:
+  enable: true
