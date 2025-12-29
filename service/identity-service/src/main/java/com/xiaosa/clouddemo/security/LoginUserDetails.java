@@ -3,6 +3,7 @@ package com.xiaosa.clouddemo.security;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiaosa.clouddemo.constant.IdentityConstant;
 import com.xiaosa.clouddemo.entity.domain.User;
+import com.xiaosa.clouddemo.entity.dto.UserSecurityDto;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,14 +16,14 @@ import java.util.List;
 
 @Data
 public class LoginUserDetails implements UserDetails {
-    private User user;
+    private UserSecurityDto user;
     private List<String> roleNames;
     private List<String> permissionNames;
     private String loginIdentifier;
     public LoginUserDetails() {
     }
 
-    public LoginUserDetails(User user, List<String> roleNames, List<String> permissionNames, String loginIdentifier) {
+    public LoginUserDetails(UserSecurityDto user, List<String> roleNames, List<String> permissionNames, String loginIdentifier) {
         this.user = user;
         this.roleNames = roleNames;
         this.permissionNames = permissionNames;

@@ -9,6 +9,7 @@ import com.xiaosa.clouddemo.entity.domain.User;
 import com.xiaosa.clouddemo.entity.dto.AccountDto;
 import com.xiaosa.clouddemo.entity.dto.PhoneDto;
 import com.xiaosa.clouddemo.entity.dto.SmsDto;
+import com.xiaosa.clouddemo.entity.dto.UserSecurityDto;
 import com.xiaosa.clouddemo.entity.dto.group.PhoneGroup;
 import com.xiaosa.clouddemo.entity.dto.group.SmsGroup;
 import com.xiaosa.clouddemo.result.ApiResponse;
@@ -101,7 +102,7 @@ public class IdentityController {
         try {
             Authentication authenticated = authenticationManager.authenticate(authentication);
             LoginUserDetails principal = (LoginUserDetails) authenticated.getPrincipal();
-            User user = principal.getUser();
+            UserSecurityDto user = principal.getUser();
             // 生成新 token
             String token = JwtUtils.sign(String.valueOf(user.getUserId()));
             String json = objectMapper.writeValueAsString(principal);

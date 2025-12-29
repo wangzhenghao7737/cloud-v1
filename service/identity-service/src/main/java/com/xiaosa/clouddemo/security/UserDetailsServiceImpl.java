@@ -1,7 +1,9 @@
 package com.xiaosa.clouddemo.security;
 
 import com.xiaosa.clouddemo.entity.domain.*;
+import com.xiaosa.clouddemo.entity.dto.UserSecurityDto;
 import com.xiaosa.clouddemo.mapper.*;
+import com.xiaosa.clouddemo.service.UserSecurityDtoMapper;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,6 +34,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private RolePermissionMapper rolePermissionMapper;
     @Resource
     private PermissionMapper permissionMapper;
+    @Resource
+    private UserSecurityDtoMapper userSecurityDtoMapper;
     /**
      * @param username
      * Long id , start at 20000000000
@@ -85,7 +89,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 }
             }
         }
-        return new LoginUserDetails(user, roleNameList, permissionNameList, loginIdentifier);
+        return new LoginUserDetails(userSecurityDtoMapper.toSecurityDto(user), roleNameList, permissionNameList, loginIdentifier);
     }
 
     private boolean isNumeric(String str) {
