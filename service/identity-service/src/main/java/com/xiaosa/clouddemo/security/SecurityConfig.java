@@ -30,11 +30,8 @@ public class SecurityConfig {
     @Resource
     private LoginUnAccessDeniedHandler loginUnAccessDeniedHandler;
     @Resource
-    private SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
-    @Resource
     private UserDetailsService userDetailsService;
-    @Resource
-    private LogoutStatusSuccessHandler logoutStatusSuccessHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
@@ -49,8 +46,7 @@ public class SecurityConfig {
         http.exceptionHandling(exception -> exception
                 .authenticationEntryPoint(loginUnAuthenticationEntryPointHandler)
                 .accessDeniedHandler(loginUnAccessDeniedHandler));
-//        http.logout(AbstractHttpConfigurer::disable);
-        http.logout(logout->logout.logoutSuccessHandler(logoutStatusSuccessHandler));
+        http.logout(AbstractHttpConfigurer::disable);
         return http.build();
 
     }
@@ -62,14 +58,15 @@ public class SecurityConfig {
      * 认证管理器
      */
     @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
+    public AuthenticationManager authenticationManager(SmsCodeAuthenticationProvider smsCodeAuthenticationProvider
+                                                        ,PhonePwdAuthenticationProvider phonePwdAuthenticationProvider) throws Exception {
         // 1. 创建密码登录的 Provider
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
         daoProvider.setUserDetailsService(userDetailsService);
         daoProvider.setPasswordEncoder(encoder());
 
         // 2. 创建组合 ProviderManager
-        return new ProviderManager(daoProvider, smsCodeAuthenticationProvider);
+        return new ProviderManager(daoProvider,phonePwdAuthenticationProvider, smsCodeAuthenticationProvider);
     }
 
 }

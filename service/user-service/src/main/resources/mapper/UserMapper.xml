@@ -33,4 +33,5 @@
         WHERE user_id = #{id}
         AND logic_delete = #{isLogicalDelete}
     </select>
+    <select id="selectByPhoneWithPwd" resultType="com.xiaosa.clouddemo.entity.domain.User"></select>
 </mapper>

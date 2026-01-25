@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface UserMapper extends BaseMapper<User> {
     User selectByUserId(Long id);
     User selectByUserPhone(String phone);
+    User selectByPhoneWithPwd(String phone, String password);
 }
 
 

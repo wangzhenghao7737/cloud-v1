@@ -19,11 +19,15 @@ public class LoginUserDetails implements UserDetails {
     private UserSecurityDto user;
     private List<String> roleNames;
     private List<String> permissionNames;
+    // 用户 id
     private String loginIdentifier;
     public LoginUserDetails() {
     }
 
-    public LoginUserDetails(UserSecurityDto user, List<String> roleNames, List<String> permissionNames, String loginIdentifier) {
+    public LoginUserDetails(UserSecurityDto user
+            , List<String> roleNames
+            , List<String> permissionNames
+            , String loginIdentifier) {
         this.user = user;
         this.roleNames = roleNames;
         this.permissionNames = permissionNames;
@@ -43,7 +47,7 @@ public class LoginUserDetails implements UserDetails {
         /*
          * 当前用户的权限信息
          * 1. 角色表权限   ROLE_  admin  ROLE_admin
-         * 2. 权限表权限  del  add query edit
+         * 2. 权限表权限  del add query edit
          */
         if(!CollectionUtils.isEmpty(roleNames)){
             for (String roleName : roleNames) {
@@ -66,14 +70,12 @@ public class LoginUserDetails implements UserDetails {
     }
 
     /**
-     * 根据登录时传入的数据：Long , phone
-     * 在UserDetailsServiceImpl中查询用户信息
-     * 最终user_id为凭据
+     * user_id
      */
     @Override
     @JsonIgnore
     public String getUsername() {
-        return loginIdentifier; // 返回用户实际输入的内容
+        return loginIdentifier;
     }
 
     @Override

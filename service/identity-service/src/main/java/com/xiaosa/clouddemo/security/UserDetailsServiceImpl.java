@@ -36,32 +36,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private PermissionMapper permissionMapper;
     @Resource
     private UserSecurityDtoMapper userSecurityDtoMapper;
-    /**
-     * @param username
-     * Long id , start at 20000000000
-     * phone String
-     * 20000000000
-     * 13812341234
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // todo 手机号登录时，如果手机号格式不匹配，会进入else if
-        User user = null;
-        if (isValidPhone(username)) {
-            user = userMapper.selectByUserPhone(username);
-        } else if (isNumeric(username)) {
-            user = userMapper.selectByUserId(Long.parseLong(username));
-        } else {
-            // 可扩展：邮箱等，暂用
-            user = userMapper.selectByUserId(Long.parseLong(username));
-        }
+        User user = userMapper.selectByUserId(Long.parseLong(username));
         // 框架会根据语言环境，将错误提示转换为 用户名或密码错误
         if (user == null) throw new UsernameNotFoundException("用户不存在");
-        return buildLoginUserDetails(user, username);
+        return buildLoginUserDetails(user);
     }
-
-    // 新增私有方法，提取公共逻辑
-    private LoginUserDetails buildLoginUserDetails(User user, String loginIdentifier) {
+    public User loadUserByPhone(String phone){
+        User user = userMapper.selectByUserPhone(phone);
+        if (user == null) throw new UsernameNotFoundException("用户不存在");
+        return user;
+    }
+    // 私有方法，提取公共逻辑
+    public LoginUserDetails buildLoginUserDetails(User user) {
         List<String> roleNameList = new ArrayList<>();
         List<String> permissionNameList = new ArrayList<>();
 
@@ -89,14 +77,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 }
             }
         }
-        return new LoginUserDetails(userSecurityDtoMapper.toSecurityDto(user), roleNameList, permissionNameList, loginIdentifier);
-    }
-
-    private boolean isNumeric(String str) {
-        return str != null && str.matches("\\d+");
-    }
-
-    private boolean isValidPhone(String phone) {
-        return phone != null && phone.matches("1[3-9]\\d{9}");
+        return new LoginUserDetails(userSecurityDtoMapper.toSecurityDto(user), roleNameList, permissionNameList, user.getUserId().toString());
     }
 }

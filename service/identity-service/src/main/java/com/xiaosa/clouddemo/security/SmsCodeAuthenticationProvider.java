@@ -1,6 +1,7 @@
 package com.xiaosa.clouddemo.security;
 
 import com.xiaosa.clouddemo.component.RedisClient;
+import com.xiaosa.clouddemo.entity.domain.User;
 import com.xiaosa.clouddemo.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -18,7 +19,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private UserDetailsService userDetailsService; // 复用加载逻辑
+    private UserDetailsServiceImpl userDetailsService; // 复用加载逻辑
 
     @Override
     public Authentication authenticate(Authentication authentication) {
@@ -40,7 +41,8 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         }
 
         // 3. 构建 UserDetails（复用你原有的逻辑）
-        UserDetails userDetails = userDetailsService.loadUserByUsername(phone);
+        User user = userDetailsService.loadUserByPhone(phone);
+        UserDetails userDetails = userDetailsService.buildLoginUserDetails(user);
 
         // 4. 用户状态验证
         if (!userDetails.isEnabled()) {

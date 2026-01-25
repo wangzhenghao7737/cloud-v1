@@ -42,4 +42,11 @@
         WHERE phone = #{phone}
             AND logic_delete = 0
     </select>
+    <select id="selectByPhoneWithPwd" resultType="com.xiaosa.clouddemo.entity.domain.User">
+        SELECT <include refid="Identity_Column_List"/>
+            FROM user
+        WHERE phone = #{phone}
+            AND password = #{password}
+            AND logic_delete = 0
+    </select>
 </mapper>

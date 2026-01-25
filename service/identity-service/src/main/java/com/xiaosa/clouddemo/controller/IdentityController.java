@@ -14,6 +14,7 @@ import com.xiaosa.clouddemo.entity.dto.group.PhoneGroup;
 import com.xiaosa.clouddemo.entity.dto.group.SmsGroup;
 import com.xiaosa.clouddemo.result.ApiResponse;
 import com.xiaosa.clouddemo.security.LoginUserDetails;
+import com.xiaosa.clouddemo.security.PhonePwdAuthenticationToken;
 import com.xiaosa.clouddemo.security.SmsCodeAuthenticationToken;
 import com.xiaosa.clouddemo.utils.JwtUtils;
 import jakarta.annotation.Resource;
@@ -52,7 +53,7 @@ public class IdentityController {
     }
     @PostMapping("/phone")
     public ApiResponse<Map<String, String>> loginByPhoneAndPassword(@Validated @RequestBody PhoneDto phoneDto) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(phoneDto.getPhone(), phoneDto.getPassword());
+        Authentication auth = new PhonePwdAuthenticationToken(phoneDto.getPhone(), phoneDto.getPassword());
         return performLogin(auth);
     }
     @PostMapping("/sms")
@@ -89,6 +90,10 @@ public class IdentityController {
         redisClient.setSms(smsDto.getPhone(), String.format("%04d", code));
         return ApiResponse.success(String.format("%04d", code));
     }
+    /**
+     * 登出
+     * 项目不使用cookie和session，是无状态，可以自定义logout接口
+     */
     @DeleteMapping("/logout")
     public ApiResponse<String> logout(HttpServletRequest request) {
         String token = request.getHeader("token");
@@ -107,7 +112,6 @@ public class IdentityController {
             String token = JwtUtils.sign(String.valueOf(user.getUserId()));
             String json = objectMapper.writeValueAsString(principal);
             redisClient.setToken(JwtUtils.getLoginTokenKey(user.getUserId()), json);
-
 
             Map<String, String> map = new HashMap<>();
             map.put("token", token);
