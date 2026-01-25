@@ -16,6 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * todo 单点登录模式
+ * 实现方式1： UserSecurityDto增加一个jwt的jti字段，用于对比新旧jwt
+ */
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -29,6 +33,8 @@ public class SecurityConfig {
     private SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
     @Resource
     private UserDetailsService userDetailsService;
+    @Resource
+    private LogoutStatusSuccessHandler logoutStatusSuccessHandler;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
@@ -43,8 +49,10 @@ public class SecurityConfig {
         http.exceptionHandling(exception -> exception
                 .authenticationEntryPoint(loginUnAuthenticationEntryPointHandler)
                 .accessDeniedHandler(loginUnAccessDeniedHandler));
-        http.logout(AbstractHttpConfigurer::disable);
+//        http.logout(AbstractHttpConfigurer::disable);
+        http.logout(logout->logout.logoutSuccessHandler(logoutStatusSuccessHandler));
         return http.build();
+
     }
     @Bean
     public PasswordEncoder encoder(){
