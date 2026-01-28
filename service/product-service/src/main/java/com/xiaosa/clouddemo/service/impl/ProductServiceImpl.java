@@ -8,6 +8,7 @@ import com.xiaosa.clouddemo.component.RedisClient;
 import com.xiaosa.clouddemo.codeEnum.ProductCodeEnum;
 import com.xiaosa.clouddemo.constant.ProductConstant;
 import com.xiaosa.clouddemo.domain.Product;
+import com.xiaosa.clouddemo.domain.ProductCreate;
 import com.xiaosa.clouddemo.dto.product.ProductDto;
 import com.xiaosa.clouddemo.dto.product.ReduceStockDto;
 import com.xiaosa.clouddemo.entity.ProductCommon;
@@ -20,6 +21,8 @@ import com.xiaosa.clouddemo.utils.KeyUtils;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -217,7 +220,17 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
             }
             return true;
         }
+
+    @Override
+    public boolean insertProduct(ProductCreate productCreate) {
+        Product entity = productDtoMapper.toEntity(productCreate);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = (String)authentication.getPrincipal();
+        entity.setCreatedBy(Long.valueOf(userId));
+        int insert = productMapper.insert(entity);
+        return insert == ProductConstant.INSERT_SUCCESS;
     }
+}
 
 
 

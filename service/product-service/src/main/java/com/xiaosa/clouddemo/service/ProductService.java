@@ -2,6 +2,7 @@ package com.xiaosa.clouddemo.service;
 
 import com.xiaosa.clouddemo.domain.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaosa.clouddemo.domain.ProductCreate;
 import com.xiaosa.clouddemo.dto.product.ProductDto;
 import com.xiaosa.clouddemo.dto.product.ReduceStockDto;
 import com.xiaosa.clouddemo.entity.ProductCommon;
@@ -19,4 +20,5 @@ public interface ProductService extends IService<Product> {
     List<ProductDto> getProductDtoListWithRedis(List<Long> ids);
     ProductCommon getProductCommonById(Long id);
     boolean reduceStock(ReduceStockDto reduceStockDto);
+    boolean insertProduct(ProductCreate productCreate);
 }

@@ -98,4 +98,11 @@ public class RedisClient {
         }
         return resultMap;
     }
+    public String getToken(String key) {
+        String json = redisTemplate.opsForValue().get(key);
+        if(ObjectUtils.isEmpty(json)){
+            return null;
+        }
+        return json;
+    }
 }

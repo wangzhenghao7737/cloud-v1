@@ -2,6 +2,7 @@ package com.xiaosa.clouddemo.controller;
 
 import com.xiaosa.clouddemo.codeEnum.ProductCodeEnum;
 import com.xiaosa.clouddemo.codeEnum.SystemCodeEnum;
+import com.xiaosa.clouddemo.domain.ProductCreate;
 import com.xiaosa.clouddemo.dto.product.ProductDto;
 import com.xiaosa.clouddemo.dto.product.ProductDtoList;
 import com.xiaosa.clouddemo.dto.product.ReduceStockDto;
@@ -60,5 +61,13 @@ public class ProductController {
     @PutMapping("/reduceStock")
     public ApiResponse<Boolean> reduceStock(@Valid @RequestBody ReduceStockDto reduceStockDto) {
         return ApiResponse.success(productService.reduceStock(reduceStockDto));
+    }
+    @PostMapping("/insert")
+    public ApiResponse<Boolean> insertProduct(@Valid @RequestBody ProductCreate productCreate) {
+        return ApiResponse.success(productService.insertProduct(productCreate));
+    }
+    @GetMapping("/test")
+    public ApiResponse<String> test() {
+        return ApiResponse.success("test");
     }
 }
